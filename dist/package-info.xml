@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<name>RSS Aggregator</name>
+	<id>shawnb61:RSSAggregator</id>
+	<version>1.0.0</version>
+	<type>modification</type>
+	<install for="2.1.4-2.1.99">
+		<readme type="file" parsebbc="true">readme.txt</readme> 
+		<require-dir name="Sources" destination="$boarddir"/>
+        <require-dir name="Themes" destination="$boarddir"/>
+		<database type="file">RSSAggregatorDBChanges.php</database>
+		<hook hook="integrate_admin_areas" function="rss_aggregator_admin_menu" file="$sourcedir/RSSAggregatorHooks.php" />
+		<hook hook="integrate_remove_message" function="rss_aggregator_remove_message" file="$sourcedir/RSSAggregatorHooks.php" />
+		<hook hook="integrate_remove_topics_before" function="rss_aggregator_remove_topics_before" file="$sourcedir/RSSAggregatorHooks.php" />
+	</install>	
+	<uninstall for="2.1.4-2.1.99">
+		<hook hook="integrate_admin_areas" function="rss_aggregator_admin_menu" file="$sourcedir/RSSAggregatorHooks.php" reverse="true" />
+		<hook hook="integrate_remove_message" function="rss_aggregator_remove_message" file="$sourcedir/RSSAggregatorHooks.php" reverse="true" />
+		<hook hook="integrate_remove_topics_before" function="rss_aggregator_remove_topics_before" file="$sourcedir/RSSAggregatorHooks.php" reverse="true" />
+		<code type="file">RSSAggregatorDBUninstall.php</code>
+		<remove-file name="$sourcedir/RSSAggregator.php" />
+		<remove-file name="$sourcedir/RSSAggregatorHooks.php" />
+		<remove-file name="$sourcedir/RSSAggregatorModel.php" />
+		<remove-file name="$sourcedir/tasks/RSSAggregator-UpdateFeed.php" />
+		<remove-file name="$themedir/RSSAggregatorMaint.template.php" />
+		<remove-file name="$themedir/languages/RSSAggregator.english.php" />
+		<remove-file name="$themedir/css/rssaggregator.css" />
+	</uninstall>
+</package-info>

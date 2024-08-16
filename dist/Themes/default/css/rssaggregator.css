@@ -1,0 +1,28 @@
+/* Chunk it up a bit 1... */
+@media screen and (max-width: 880px) {
+	th.smf_id_member, th.smf_board,
+	td.smf_id_member, td.smf_board {
+		display: none;
+	}
+}
+
+/* Chunk it up a bit 2... */
+@media (max-width: 720px) {
+	th.smf_id_member, th.smf_board, th.smf_topic_prefix, th.smf_last_proc_time,
+	td.smf_id_member, td.smf_board, td.smf_topic_prefix, td.smf_last_proc_time {
+		display: none;
+	}
+}
+
+/* Chunk it up a bit 3... */
+@media (max-width: 480px) {
+	th.smf_id_member, th.smf_board, th.smf_topic_prefix, th.smf_last_proc_time, th.smf_status,
+	td.smf_id_member, td.smf_board, td.smf_topic_prefix, td.smf_last_proc_time, td.smf_status {
+		display: none;
+	}
+}
+
+/* Or else very long words, filenames can mess up smartphone tables */
+.smf_link {
+	word-break: break-word;
+}
