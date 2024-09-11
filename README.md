@@ -22,6 +22,5 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - No feedback data is included, e.g., comments, ratings, statistics.  It would conflict with forum feedback, just sticking to one set.
  - This will not update existing posts.  Updates may conflict with forum discussions.
  - If id/guid are not unique, duplicate posts may result.  Not all feeds provide guids or even publication dates on their items.  There is A LOT of effort here to avoid dupes by providing proxy guids, but some may still occur.
- - Every new item found in a feed is a new topic in the specified board.
  - Mastodon cards are not supported, which is a shame.  Mastodon & other fediverse feeds use cards as a generic mechanism for associating media with a formatted background image & some predefined action/url.  The problem here is that the card details are not in the links, only the core media url.
  - xml parse errors and warnings are suppressed, and a generic single "cannot parse" error is logged in SMF.  If you encounter this, odds are you aren't pointing to an actual rss feed...
