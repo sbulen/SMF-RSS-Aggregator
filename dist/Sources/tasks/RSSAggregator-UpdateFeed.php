@@ -101,8 +101,8 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 	/**
 	 * Parse that puppy - read the feed & figure out which updates to make.
 	 * The approach is to flatten the different standards down to a common set of tags.
-	 * Convert existing entity-encoded chars back...
-	 * We'll deal with those ourselves later & don't want to double encode.
+	 * Convert existing entity-encoded chars back...  Need to do a lot of processing of html.
+	 * We'll re-encode later, before storage...
 	 *
 	 * Note that publication dates at the channel level tend to reflect *initial* publication
 	 * dates & are sometimes many years old for a currently publishing feed.  Cannot filter
@@ -262,8 +262,8 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 	/**
 	 * Parse that item - work on a specific item/entry to post.
 	 * The approach is to flatten the different standards down to a common set of tags.
-	 * Convert existing entity-encoded chars back...
-	 * We'll deal with those ourselves later & don't want to double encode.
+	 * Convert existing entity-encoded chars back...  Need to do a lot of processing of html.
+	 * We'll re-encode later, before storage...
 	 *
 	 * @params SimpleXMLElement $curr_node - entry or item to parse
 	 * @params string $default_author
@@ -585,9 +585,9 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 			}
 		}
 
-		// html comments are always removed by strip_tags(), so encode them...
-		// These break things, esp. if non-balanced - "<--" very effectively deletes remainder of post...
-		$post_body = preg_replace(['~<--~', '~-->~'], ['&lt;--', '--&gt;'], $post_body);
+		// strip_tags() confuses "<-" with comments... 
+		// "<-" deletes the remainder of any post... It is treated as a start of a comment...
+		$post_body = preg_replace(['~<-~'], ['&lt;-'], $post_body);
 
 		// Nuke html tags, except for link, img, and iframe tags...
 		$post_body = strip_tags($post_body, ['a', 'img', 'iframe']);
