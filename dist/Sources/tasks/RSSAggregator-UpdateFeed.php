@@ -228,6 +228,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 							case 'textinput':
 							case 'updatefrequency':
 							case 'updateperiod':
+							case 'site':
 								break;
 							default:
 								if ($this->learn_mode_enabled())
@@ -383,9 +384,13 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 						break;
 					// Ignore these tags, no action:
 					// Comments brings you automatically to post-reply...  Seems funky, user may not even be a member...
-					// image_link is part of the google standard, & typically reflects an image within description.  Don't duplicate it...
 					case 'comments':
+					// image_link is part of the google standard, & typically reflects an image within description.  Don't duplicate it...
 					case 'image_link':
+					// post-id is typically a copy of the guid, but in a different format, duplicate...
+					case 'post-id':
+					// commentRss is typically a copy of the main media link, duplicate...
+					case 'commentrss':
 						break;
 					default:
 						// Will display it as info, but log it to review...
