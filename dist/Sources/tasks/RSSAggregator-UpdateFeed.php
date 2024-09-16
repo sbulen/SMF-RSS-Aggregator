@@ -608,6 +608,9 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		// Cleaning up links takes a bit of work, use a callback...
 		$post_body = preg_replace_callback('~<a\s[^>]*href=\"([^\"]+)\"[^>]*>([^<]*)<\/a>~', array('RSSAggregator_Background', 'clean_anchor_callback'), $post_body);
 
+		// Anchors without href, who knew? I could have made prior regex more fancy, but this is easier to grok...
+		$post_body = preg_replace('~<a\s[^>]*>[^<]*<\/a>~', '', $post_body);
+
 		// Cleaning up img tags takes a bit of work, use a callback...
 		$post_body = preg_replace_callback('~<img\s[^>]*src=\"([^\"]+)\"[^>]*>~', array('RSSAggregator_Background','clean_img_callback'), $post_body);
 

@@ -28,3 +28,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
 [b]Releases:[/b]
  - v1.0.0 Initial Commit
  - v1.0.1 Tweak to html comment bug fix
+ - v1.0.2 Fold in more tags; improve anchor cleaning
