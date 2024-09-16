@@ -645,9 +645,9 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$new_link = '';
 
 		// $matches[0] is whole match...  $matches[1] is the url.  $matches 2 is text.
-		$matches[0] = trim($matches[0]);
-		$matches[1] = trim($matches[1]);
-		$matches[2] = trim($matches[2]);
+		$matches[0] = empty($matches[0]) ? '' : trim($matches[0]);
+		$matches[1] = empty($matches[1]) ? '' : trim($matches[1]);
+		$matches[2] = empty($matches[2]) ? '' : trim($matches[2]);
 		$url = empty($matches[1]) ? '' : $matches[1];
 		$text = empty($matches[2]) ? $url : $matches[2];
 
@@ -679,8 +679,8 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$new_link = '';
 
 		// $matches[0] is whole match...  $matches[1] is the src.
-		$matches[0] = trim($matches[0]);
-		$matches[1] = trim($matches[1]);
+		$matches[0] = empty($matches[0]) ? '' : trim($matches[0]);
+		$matches[1] = empty($matches[1]) ? '' : trim($matches[1]);
 		$src = empty($matches[1]) ? '' : $matches[1];
 
 		//Problem is we don't know what order these are in...
