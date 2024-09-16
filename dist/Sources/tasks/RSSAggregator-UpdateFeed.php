@@ -525,8 +525,9 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 					}
 					else
 					{
+						// Leverage anchor cleanup callback for this...
 						if (!empty($content['media_url']))
-							$post_body .= $content['media_url'] . "\n\n";
+							$post_body .= $this->clean_anchor_callback(array($content['media_url'], $content['media_url'])) . "\n\n";
 					}
 				}
 			}
