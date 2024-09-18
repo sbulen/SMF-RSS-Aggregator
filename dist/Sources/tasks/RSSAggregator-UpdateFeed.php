@@ -278,7 +278,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 	 */
 	private function parse_that_item($curr_node, $default_author)
 	{
-		global $sourcedir, $txt;
+		global $sourcedir, $txt, $smcFunc;
 
 		$updates = array();
 		$msgOptions = array();
@@ -430,12 +430,12 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 			return;
 
 		// Also check if guid has been posted...
-		if (guid_exists($this->_details['id_channel'], htmlspecialchars($updates['guid'])))
+		if (guid_exists($this->_details['id_channel'], $smcFunc['htmlspecialchars']($updates['guid'])))
 			return;
 
 		// Format post subject & body info...
 		// Note that some feeds, notably Mastodon, don't really have titles, so just gotta cobble one from the prefix & date...
-		$msgOptions['subject'] = $this->_details['smf_topic_prefix'] . ' ' . htmlspecialchars(!empty($updates['title']) ? $updates['title'] : (!empty($updates['pub_date']) ? $this->clean_localize_time($updates['pub_date']) : ''));
+		$msgOptions['subject'] = $this->_details['smf_topic_prefix'] . ' ' . $smcFunc['htmlspecialchars'](!empty($updates['title']) ? $updates['title'] : (!empty($updates['pub_date']) ? $this->clean_localize_time($updates['pub_date']) : ''));
 		$msgOptions['body'] = $this->format_post_body($updates);
 
 		$topicOptions['board'] = $this->_details['smf_board'];
@@ -445,7 +445,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		if (empty($this->_details['smf_id_member']))
 		{
 			$posterOptions['id'] = 0;
-			$posterOptions['name'] = htmlspecialchars(!empty($updates['managing_editor']) ? $updates['managing_editor'] : (!empty($default_author) ? $default_author : ''));
+			$posterOptions['name'] = $smcFunc['htmlspecialchars'](!empty($updates['managing_editor']) ? $updates['managing_editor'] : (!empty($default_author) ? $default_author : ''));
 			$posterOptions['email'] = '';
 		}
 		else
@@ -470,7 +470,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 
 		// Set guid, to avoid posting this again.
 		// $msgOptionsp['id'] should include new message id upon successful post.
-		guid_add($this->_details['id_channel'], htmlspecialchars($updates['guid']), $msgOptions['id']);
+		guid_add($this->_details['id_channel'], $smcFunc['htmlspecialchars']($updates['guid']), $msgOptions['id']);
 	}
 
 	/**
@@ -625,7 +625,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 
 		// Finally, some of these are huge, truncate anything that won't fit...  No double-encoding (comments, above...)...
 		// When truncating, leave plenty of headroom...  Seems to expand quite a bit between here & the actual physical insert...
-		$post_body = mb_substr(htmlspecialchars($post_body, ENT_QUOTES|ENT_SUBSTITUTE|ENT_HTML401, null, false), 0, 64000);
+		$post_body = mb_substr($smcFunc['htmlspecialchars']($post_body, ENT_QUOTES|ENT_SUBSTITUTE|ENT_HTML401, null, false), 0, 64000);
 
 		return $post_body;
 	}

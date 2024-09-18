@@ -369,41 +369,41 @@ function add_feed()
 		validateToken('rssagg_add', 'post');
 
 		// In case you need to come back after errors....
-		$_SESSION['rssagg_feed_info']['smf_link'] = !empty($_POST['smf_link']) ? htmlspecialchars($_POST['smf_link']) : '';
-		$_SESSION['rssagg_feed_info']['smf_board'] = !empty($_POST['smf_board']) ? htmlspecialchars($_POST['smf_board']) : '';
-		$_SESSION['rssagg_feed_info']['smf_description'] = !empty($_POST['smf_description']) ? htmlspecialchars($_POST['smf_description']) : '';
-		$_SESSION['rssagg_feed_info']['smf_topic_prefix'] = !empty($_POST['smf_topic_prefix']) ? htmlspecialchars($_POST['smf_topic_prefix']) : '';
-		$_SESSION['rssagg_feed_info']['smf_id_member'] = !empty($_POST['smf_id_member']) ? htmlspecialchars($_POST['smf_id_member']) : '';
+		$_SESSION['rssagg_feed_info']['smf_link'] = !empty($_POST['smf_link']) ? $smcFunc['htmlspecialchars']($_POST['smf_link']) : '';
+		$_SESSION['rssagg_feed_info']['smf_board'] = !empty($_POST['smf_board']) ? $smcFunc['htmlspecialchars']($_POST['smf_board']) : '';
+		$_SESSION['rssagg_feed_info']['smf_description'] = !empty($_POST['smf_description']) ? $smcFunc['htmlspecialchars']($_POST['smf_description']) : '';
+		$_SESSION['rssagg_feed_info']['smf_topic_prefix'] = !empty($_POST['smf_topic_prefix']) ? $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']) : '';
+		$_SESSION['rssagg_feed_info']['smf_id_member'] = !empty($_POST['smf_id_member']) ? $smcFunc['htmlspecialchars']($_POST['smf_id_member']) : '';
 
 		// Validate the url
-		$context['rssagg_feed_info']['smf_link'] = htmlspecialchars($_POST['smf_link']);
+		$context['rssagg_feed_info']['smf_link'] = $smcFunc['htmlspecialchars']($_POST['smf_link']);
 		$smf_link = validate_iri($_POST['smf_link']);
 		if (!is_string($smf_link) || (strlen($smf_link) > 255))
 			fatal_lang_error('rssagg_bad_link', false);
 
 		// Validate the board
-		$context['rssagg_feed_info']['smf_board'] = htmlspecialchars($_POST['smf_board']);
-		$smf_board = htmlspecialchars($_POST['smf_board']);
+		$context['rssagg_feed_info']['smf_board'] = $smcFunc['htmlspecialchars']($_POST['smf_board']);
+		$smf_board = $smcFunc['htmlspecialchars']($_POST['smf_board']);
 		$smf_board_name = get_board_name((int) $smf_board);
 		if (!is_numeric($smf_board) || $smf_board == 0 || empty($smf_board_name))
 			fatal_lang_error('rssagg_bad_board', false);
 		$context['rssagg_feed_info']['smf_board_name'] = $smf_board_name;
 
 		// Validate the description
-		$context['rssagg_feed_info']['smf_description'] = htmlspecialchars($_POST['smf_description']);
-		$smf_description = htmlspecialchars($_POST['smf_description']);
+		$context['rssagg_feed_info']['smf_description'] = $smcFunc['htmlspecialchars']($_POST['smf_description']);
+		$smf_description = $smcFunc['htmlspecialchars']($_POST['smf_description']);
 		if (!is_string($smf_description) || (strlen($smf_description) > 255))
 			fatal_lang_error('rssagg_bad_desc', false);
 
 		// Validate the prefix
-		$context['rssagg_feed_info']['smf_topic_prefix'] = htmlspecialchars($_POST['smf_topic_prefix']);
-		$smf_topic_prefix = htmlspecialchars($_POST['smf_topic_prefix']);
+		$context['rssagg_feed_info']['smf_topic_prefix'] = $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']);
+		$smf_topic_prefix = $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']);
 		if (!is_string($smf_topic_prefix) || (mb_strlen($smf_topic_prefix) > 25))
 			fatal_lang_error('rssagg_bad_prefix', false);
 
 		// Validate the member
-		$context['rssagg_feed_info']['smf_id_member'] = htmlspecialchars($_POST['smf_id_member']);
-		$smf_id_member = htmlspecialchars($_POST['smf_id_member']);
+		$context['rssagg_feed_info']['smf_id_member'] = $smcFunc['htmlspecialchars']($_POST['smf_id_member']);
+		$smf_id_member = $smcFunc['htmlspecialchars']($_POST['smf_id_member']);
 		$smf_member_name = get_member_name((int) $smf_id_member);
 		if (((int) $smf_id_member != 0) && empty($smf_member_name))
 			fatal_lang_error('rssagg_bad_member', false);
@@ -446,7 +446,7 @@ function add_feed()
  */
 function mod_feed()
 {
-	global $context;
+	global $context, $smcFunc;
 
 	// You have to be able to moderate the forum to do this.
 	isAllowedTo('admin_forum');
@@ -471,41 +471,41 @@ function mod_feed()
 		validateToken('rssagg_mod', 'post');
 
 		// In case you need to come back after errors....
-		$_SESSION['rssagg_feed_info']['smf_link'] = !empty($_POST['smf_link']) ? htmlspecialchars($_POST['smf_link']) : '';
-		$_SESSION['rssagg_feed_info']['smf_board'] = !empty($_POST['smf_board']) ? htmlspecialchars($_POST['smf_board']) : '';
-		$_SESSION['rssagg_feed_info']['smf_description'] = !empty($_POST['smf_description']) ? htmlspecialchars($_POST['smf_description']) : '';
-		$_SESSION['rssagg_feed_info']['smf_topic_prefix'] = !empty($_POST['smf_topic_prefix']) ? htmlspecialchars($_POST['smf_topic_prefix']) : '';
-		$_SESSION['rssagg_feed_info']['smf_id_member'] = !empty($_POST['smf_id_member']) ? htmlspecialchars($_POST['smf_id_member']) : '';
+		$_SESSION['rssagg_feed_info']['smf_link'] = !empty($_POST['smf_link']) ? $smcFunc['htmlspecialchars']($_POST['smf_link']) : '';
+		$_SESSION['rssagg_feed_info']['smf_board'] = !empty($_POST['smf_board']) ? $smcFunc['htmlspecialchars']($_POST['smf_board']) : '';
+		$_SESSION['rssagg_feed_info']['smf_description'] = !empty($_POST['smf_description']) ? $smcFunc['htmlspecialchars']($_POST['smf_description']) : '';
+		$_SESSION['rssagg_feed_info']['smf_topic_prefix'] = !empty($_POST['smf_topic_prefix']) ? $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']) : '';
+		$_SESSION['rssagg_feed_info']['smf_id_member'] = !empty($_POST['smf_id_member']) ? $smcFunc['htmlspecialchars']($_POST['smf_id_member']) : '';
 
 		// Validate the url
-		$context['rssagg_feed_info']['smf_link'] = htmlspecialchars($_POST['smf_link']);
+		$context['rssagg_feed_info']['smf_link'] = $smcFunc['htmlspecialchars']($_POST['smf_link']);
 		$smf_link = validate_iri($_POST['smf_link']);
 		if (!is_string($smf_link) || (strlen($smf_link) > 255))
 			fatal_lang_error('rssagg_bad_link', false);
 
 		// Validate the board
-		$context['rssagg_feed_info']['smf_board'] = htmlspecialchars($_POST['smf_board']);
-		$smf_board = htmlspecialchars($_POST['smf_board']);
+		$context['rssagg_feed_info']['smf_board'] = $smcFunc['htmlspecialchars']($_POST['smf_board']);
+		$smf_board = $smcFunc['htmlspecialchars']($_POST['smf_board']);
 		$smf_board_name = get_board_name((int) $smf_board);
 		if (!is_numeric($smf_board) || $smf_board == 0 || empty($smf_board_name))
 			fatal_lang_error('rssagg_bad_board', false);
 		$context['rssagg_feed_info']['smf_board_name'] = $smf_board_name;
 
 		// Validate the description
-		$context['rssagg_feed_info']['smf_description'] = htmlspecialchars($_POST['smf_description']);
-		$smf_description = htmlspecialchars($_POST['smf_description']);
+		$context['rssagg_feed_info']['smf_description'] = $smcFunc['htmlspecialchars']($_POST['smf_description']);
+		$smf_description = $smcFunc['htmlspecialchars']($_POST['smf_description']);
 		if (!is_string($smf_description) || (strlen($smf_description) > 255))
 			fatal_lang_error('rssagg_bad_desc', false);
 
 		// Validate the prefix
-		$context['rssagg_feed_info']['smf_topic_prefix'] = htmlspecialchars($_POST['smf_topic_prefix']);
-		$smf_topic_prefix = htmlspecialchars($_POST['smf_topic_prefix']);
+		$context['rssagg_feed_info']['smf_topic_prefix'] = $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']);
+		$smf_topic_prefix = $smcFunc['htmlspecialchars']($_POST['smf_topic_prefix']);
 		if (!is_string($smf_topic_prefix) || (mb_strlen($smf_topic_prefix) > 25))
 			fatal_lang_error('rssagg_bad_prefix', false);
 
 		// Validate the member
-		$context['rssagg_feed_info']['smf_id_member'] = htmlspecialchars($_POST['smf_id_member']);
-		$smf_id_member = htmlspecialchars($_POST['smf_id_member']);
+		$context['rssagg_feed_info']['smf_id_member'] = $smcFunc['htmlspecialchars']($_POST['smf_id_member']);
+		$smf_id_member = $smcFunc['htmlspecialchars']($_POST['smf_id_member']);
 		$smf_member_name = get_member_name((int) $smf_id_member);
 		if (((int) $smf_id_member != 0) && empty($smf_member_name))
 			fatal_lang_error('rssagg_bad_member', false);

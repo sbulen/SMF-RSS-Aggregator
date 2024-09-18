@@ -29,3 +29,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - v1.0.0 Initial Commit
  - v1.0.1 Tweak to html comment bug fix
  - v1.0.2 Fold in more tags; improve anchor processing; check media_url
+ - v1.0.3 A little more bulletproofing

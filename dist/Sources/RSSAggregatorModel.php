@@ -510,7 +510,7 @@ function update_channel_feed_info($id_channel, $updates)
 	// Merge with passed updates...
 	foreach ($fields as $key => $value)
 		if (array_key_exists($key, $updates))
-			$fields[$key] = htmlspecialchars($updates[$key]);
+			$fields[$key] = $smcFunc['htmlspecialchars']($updates[$key]);
 
 	// Gotta add the key, too...
 	$fields['id_channel'] = $id_channel;
