@@ -612,7 +612,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$post_body = preg_replace('~\n{2,}~', "\n\n", trim($post_body));
 
 		// Cleaning up links takes a bit of work, use a callback...
-		$post_body = preg_replace_callback('~<a\s[^>]*href=\"([^\"]+)\"[^>]*>([^<]*)<\/a>~', array('RSSAggregator_Background', 'clean_anchor_callback'), $post_body);
+		$post_body = preg_replace_callback('~<a\s[^>]*href=\"([^\"]+)\"[^>]*>(.*?)<\/a>~s', array('RSSAggregator_Background', 'clean_anchor_callback'), $post_body);
 
 		// Anchors without href, who knew? I could have made prior regex more fancy, but this is easier to grok...
 		$post_body = preg_replace('~<a[^>]*>[^<]*<\/a>~', '', $post_body);
