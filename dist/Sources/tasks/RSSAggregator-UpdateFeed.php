@@ -34,9 +34,14 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		loadLanguage('RSSAggregator');
 		require_once($sourcedir . '/RSSAggregatorModel.php');
 
-		$feed_text = fetch_web_data($this->_details['smf_link']);
-		
-		if ($feed_text === false)
+		// Using CURL because fetch_web_data() kept choking...
+		require_once($sourcedir . '/Class-CurlFetchWeb.php');
+		$fetch_data = new curl_fetch_web_data();
+		$fetch_data->get_url_data($this->_details['smf_link']);
+
+		if ($fetch_data->result('code') == 200 && !$fetch_data->result('error'))
+			$feed_text = $fetch_data->result('body');
+		else
 		{
 			$this->report_error('rssagg_err_cannot_access_link');
 			return true;
@@ -610,7 +615,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$post_body = preg_replace_callback('~<a\s[^>]*href=\"([^\"]+)\"[^>]*>([^<]*)<\/a>~', array('RSSAggregator_Background', 'clean_anchor_callback'), $post_body);
 
 		// Anchors without href, who knew? I could have made prior regex more fancy, but this is easier to grok...
-		$post_body = preg_replace('~<a\s[^>]*>[^<]*<\/a>~', '', $post_body);
+		$post_body = preg_replace('~<a[^>]*>[^<]*<\/a>~', '', $post_body);
 
 		// Cleaning up img tags takes a bit of work, use a callback...
 		$post_body = preg_replace_callback('~<img\s[^>]*src=\"([^\"]+)\"[^>]*>~', array('RSSAggregator_Background','clean_img_callback'), $post_body);
@@ -619,7 +624,8 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$post_body = preg_replace_callback('~<iframe\s[^>]*src=\"([^\"]+)\"[^>]*>[^<]*</iframe>~', array('RSSAggregator_Background','clean_anchor_callback'), $post_body);
 
 		// Finally, some of these are huge, truncate anything that won't fit...  No double-encoding (comments, above...)...
-		$post_body = mb_substr(htmlspecialchars($post_body, ENT_QUOTES|ENT_SUBSTITUTE|ENT_HTML401, null, false), 0, 65535);
+		// When truncating, leave plenty of headroom...  Seems to expand quite a bit between here & the actual physical insert...
+		$post_body = mb_substr(htmlspecialchars($post_body, ENT_QUOTES|ENT_SUBSTITUTE|ENT_HTML401, null, false), 0, 64000);
 
 		return $post_body;
 	}
