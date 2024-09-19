@@ -3,7 +3,7 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<name>RSS Aggregator</name>
 	<id>shawnb61:RSSAggregator</id>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<type>modification</type>
 	<install for="2.1.4-2.1.99">
 		<readme type="file" parsebbc="true">readme.txt</readme> 

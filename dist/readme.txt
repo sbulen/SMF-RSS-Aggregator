@@ -7,6 +7,10 @@ It supports two types of feeds:
 
 Mastodon feeds:  Note that each Mastodon account has an RSS feed - just add ".rss" to the account page.  E.g., where you see a user handle of "@ShawnBulen@techhub.social", the server is the "techhub.social" part, so that account's page is "https://techhub.social/@ShawnBulen".  The rss feed for that handle is: "https://techhub.social/@ShawnBulen.rss".
 
+In a similar fashion, you can follow Mastodon hashtags:
+ - Hashtag usage on a particular server, e.g., for #Bonkwave: https://chaos.social/tags/BonkWave.rss
+ - Hashtags used by a particular account: https://chaos.social/@axwax/tagged/BonkWave.rss
+
 YouTube channels:  Note that you can find the YouTube channel feed url by viewing the page source while on the YouTube channel within your browser.  Just search for "rss", you'll find it.  It's buried in there in some script, not visible on the page, but it's there.  It will look like "https://www.youtube.com/feeds/videos.xml?channel_id=UCVyx4HhDowwspssrwuNeTZg"
 
 Every new item found in a feed results in a new topic in the specified board.
@@ -30,3 +34,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - v1.0.1 Tweak to html comment bug fix
  - v1.0.2 Fold in more tags; improve anchor processing; check media_url
  - v1.0.3 A little more bulletproofing
+ - v1.0.4 Some formatting tweaks
