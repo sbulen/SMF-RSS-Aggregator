@@ -604,6 +604,11 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		// Replace <p> tags with newlines...
 		$post_body = preg_replace(['~</?p>~'], "\n", $post_body);
 
+		// Preserve any simple lists we can...
+		$patterns1 = array('~<li[^>]*>~', '~</li>~', '~<ul[^>]*>~', '~</ul>~', '~<ol[^>]*>~', '~</ol>~');
+		$replacements1 = array('[li]', '[/li]', '[list]', '[/list]', '[list type=decimal]', '[/list]');
+		$post_body = preg_replace($patterns1, $replacements1, $post_body);
+
 		// strip_tags() confuses "<-" with comments... And "<3"...  (Part I...)
 		// They delete the remainder of any post, like an unclosed comment...
 		$post_body = preg_replace(['~<(-|3)~'], ['&lt;$1'], $post_body);
@@ -615,9 +620,9 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$post_body = preg_replace(['~&lt;(-|3)~'], ['<$1'], $post_body);
 
 		// Kill mid-line tabs, leading & trailing spaces
-		$patterns = array('~[ \t]+$~m', '~^[ \t]+~m', '~[ \t]+~');
-		$replacements = array('', '', ' ');
-		$post_body = preg_replace($patterns, $replacements, $post_body);
+		$patterns2 = array('~[ \t]+$~m', '~^[ \t]+~m', '~[ \t]+~');
+		$replacements2 = array('', '', ' ');
+		$post_body = preg_replace($patterns2, $replacements2, $post_body);
 
 		// strip_tags cleans style tags, BUT NOT THEIR CONTENTS...  Gotta do it ourselves...
 		$post_body = preg_replace('~<style>[^<]*</style>~', '', $post_body);
