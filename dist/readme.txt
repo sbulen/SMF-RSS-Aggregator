@@ -35,3 +35,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - v1.0.2 Fold in more tags; improve anchor processing; check media_url
  - v1.0.3 A little more bulletproofing
  - v1.0.4 Some formatting tweaks
+ - v1.0.5 Two fixes: an undefined error & empty out style tags

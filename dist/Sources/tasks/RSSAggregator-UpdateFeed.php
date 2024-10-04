@@ -278,7 +278,7 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 	 */
 	private function parse_that_item($curr_node, $default_author)
 	{
-		global $sourcedir, $txt, $smcFunc;
+		global $sourcedir, $txt, $smcFunc, $user_info;
 
 		$updates = array();
 		$msgOptions = array();
@@ -459,6 +459,10 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		// IP of user that triggered cron would be wrong, too, and confusing/deceiving... So...
 		$posterOptions['ip'] = '0.0.0.0';
 
+		// In a similar vein, createPost() assumes $user_info is populated (to determine whether
+		// to send notifications).  Since this is run by cron.php, just set to 0, not any user.
+		$user_info['id'] = 0;
+
 		// Post...
 		require_once($sourcedir . '/Subs-Post.php');
 		require_once($sourcedir . '/Logging.php');
@@ -600,20 +604,23 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		// Replace <p> tags with newlines...
 		$post_body = preg_replace(['~</?p>~'], "\n", $post_body);
 
-		// Part I:  strip_tags() confuses "<-" with comments... And "<3"...
+		// strip_tags() confuses "<-" with comments... And "<3"...  (Part I...)
 		// They delete the remainder of any post, like an unclosed comment...
 		$post_body = preg_replace(['~<(-|3)~'], ['&lt;$1'], $post_body);
 
-		// Nuke html tags, except for link, img, and iframe tags...
-		$post_body = strip_tags($post_body, ['a', 'img', 'iframe']);
+		// Nuke html tags, except for anchor, img, iframe, and style tags...
+		$post_body = strip_tags($post_body, ['a', 'img', 'iframe', 'style']);
 
-		// Part II:  Put 'em back otherwise they're ugly...
+		// Put 'em back otherwise they're ugly...  (Part II...)
 		$post_body = preg_replace(['~&lt;(-|3)~'], ['<$1'], $post_body);
 
 		// Kill mid-line tabs, leading & trailing spaces
 		$patterns = array('~[ \t]+$~m', '~^[ \t]+~m', '~[ \t]+~');
 		$replacements = array('', '', ' ');
 		$post_body = preg_replace($patterns, $replacements, $post_body);
+
+		// strip_tags cleans style tags, BUT NOT THEIR CONTENTS...  Gotta do it ourselves...
+		$post_body = preg_replace('~<style>[^<]*</style>~', '', $post_body);
 
 		// Cleanup gobs & gobs of newlines...  2 max for nice spacing.
 		$post_body = preg_replace('~\n{2,}~', "\n\n", trim($post_body));
