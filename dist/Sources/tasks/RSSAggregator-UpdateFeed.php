@@ -609,12 +609,15 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 		$replacements1 = array('[li]', '[/li]', '[list]', '[/list]', '[list type=decimal]', '[/list]');
 		$post_body = preg_replace($patterns1, $replacements1, $post_body);
 
+		// Cleaning up img tags takes a bit of work, use a callback...
+		$post_body = preg_replace_callback('~<img\s[^>]*src=\"([^\"]+)\"[^>]*>~', array('RSSAggregator_Background','clean_img_callback'), $post_body);
+
 		// strip_tags() confuses "<-" with comments... And "<3"...  (Part I...)
 		// They delete the remainder of any post, like an unclosed comment...
 		$post_body = preg_replace(['~<(-|3)~'], ['&lt;$1'], $post_body);
 
-		// Nuke html tags, except for anchor, img, iframe, and style tags...
-		$post_body = strip_tags($post_body, ['a', 'img', 'iframe', 'style']);
+		// Nuke html tags, except for anchor, iframe, and style tags...
+		$post_body = strip_tags($post_body, ['a', 'iframe', 'style']);
 
 		// Put 'em back otherwise they're ugly...  (Part II...)
 		$post_body = preg_replace(['~&lt;(-|3)~'], ['<$1'], $post_body);
@@ -635,9 +638,6 @@ class RSSAggregator_Background extends SMF_BackgroundTask
 
 		// Anchors without href, who knew? I could have made prior regex more fancy, but this is easier to grok...
 		$post_body = preg_replace('~<a[^>]*>[^<]*<\/a>~', '', $post_body);
-
-		// Cleaning up img tags takes a bit of work, use a callback...
-		$post_body = preg_replace_callback('~<img\s[^>]*src=\"([^\"]+)\"[^>]*>~', array('RSSAggregator_Background','clean_img_callback'), $post_body);
 
 		// Cleaning up iframe tags takes a bit of work, use same callback as used for anchors...
 		$post_body = preg_replace_callback('~<iframe\s[^>]*src=\"([^\"]+)\"[^>]*>[^<]*</iframe>~', array('RSSAggregator_Background','clean_anchor_callback'), $post_body);

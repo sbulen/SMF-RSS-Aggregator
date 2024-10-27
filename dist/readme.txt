@@ -37,3 +37,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - v1.0.4 Some formatting tweaks
  - v1.0.5 Two fixes: an undefined error & empty out style tags
  - v1.0.6 Format lists where possible
+ - v1.1.0 Format lists where possible; fix bug due to overzealous strip_tags()...
