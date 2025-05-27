@@ -508,9 +508,24 @@ function update_channel_feed_info($id_channel, $updates)
 	);
 
 	// Merge with passed updates...
+	// While doing so, check field lengths before insert.  All are 255, with a few exceptions, so do it
+	// brute force here.
 	foreach ($fields as $key => $value)
 		if (array_key_exists($key, $updates))
-			$fields[$key] = $smcFunc['htmlspecialchars']($updates[$key]);
+		{
+			if (in_array($key, array('ttl', 'img_width', 'img_height')))
+				$updates[$key] = (int) $updates[$key];
+			else
+			{
+				if ($key == 'language')
+					$updates[$key] = mb_substr($smcFunc['htmlspecialchars']($updates[$key]), 0, 20);
+				elseif (in_array($key, array('last_build_date', 'pub_date')))
+					$updates[$key] = mb_substr($smcFunc['htmlspecialchars']($updates[$key]), 0, 50);
+				else
+					$updates[$key] = mb_substr($smcFunc['htmlspecialchars']($updates[$key]), 0, 255);
+			}
+			$fields[$key] = $updates[$key];
+		}
 
 	// Gotta add the key, too...
 	$fields['id_channel'] = $id_channel;
