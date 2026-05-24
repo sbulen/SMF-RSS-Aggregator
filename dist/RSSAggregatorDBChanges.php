@@ -322,7 +322,4 @@ foreach ($create_tables AS $table_name => $data)
 $smcFunc['db_insert']('ignore', '{db_prefix}scheduled_tasks',
 	array('time_offset' => 'int', 'time_regularity' => 'int', 'time_unit' => 'string-1', 'disabled' => 'int', 'task' => 'string-24', 'callable' => 'string-60'),
 	array('1020', '2', 'h', '0', 'check_rss_feeds', '$sourcedir/RSSAggregator.php|check_feeds'),
-	array('id_channel'));
-
-
-
+	array('task'));
