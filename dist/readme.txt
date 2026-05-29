@@ -40,3 +40,4 @@ A tagline is provided at the bottom of each post with a link to the source and t
  - v1.1.0 Format lists where possible; fix bug due to overzealous strip_tags()...
  - v1.1.1 Check lengths on backend feed info
  - v1.1.2 Fix bug where Scheduled Task wasn't properly added/removed when using Postgresql
+ - v1.1.3 Add Russian translation, thanks to @Bugo!
