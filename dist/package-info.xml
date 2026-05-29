@@ -6,14 +6,14 @@
 	<version>1.1.2</version>
 	<type>modification</type>
 	<install for="2.1.4-2.1.99">
-		<readme type="file" parsebbc="true">readme.txt</readme> 
+		<readme type="file" parsebbc="true">readme.txt</readme>
 		<require-dir name="Sources" destination="$boarddir"/>
-        <require-dir name="Themes" destination="$boarddir"/>
+		<require-dir name="Themes" destination="$boarddir"/>
 		<database type="file">RSSAggregatorDBChanges.php</database>
 		<hook hook="integrate_admin_areas" function="rss_aggregator_admin_menu" file="$sourcedir/RSSAggregatorHooks.php" />
 		<hook hook="integrate_remove_message" function="rss_aggregator_remove_message" file="$sourcedir/RSSAggregatorHooks.php" />
 		<hook hook="integrate_remove_topics_before" function="rss_aggregator_remove_topics_before" file="$sourcedir/RSSAggregatorHooks.php" />
-	</install>	
+	</install>
 	<uninstall for="2.1.4-2.1.99">
 		<hook hook="integrate_admin_areas" function="rss_aggregator_admin_menu" file="$sourcedir/RSSAggregatorHooks.php" reverse="true" />
 		<hook hook="integrate_remove_message" function="rss_aggregator_remove_message" file="$sourcedir/RSSAggregatorHooks.php" reverse="true" />
@@ -25,6 +25,7 @@
 		<remove-file name="$sourcedir/tasks/RSSAggregator-UpdateFeed.php" />
 		<remove-file name="$themedir/RSSAggregatorMaint.template.php" />
 		<remove-file name="$themedir/languages/RSSAggregator.english.php" />
+		<remove-file name="$themedir/languages/RSSAggregator.russian.php" />
 		<remove-file name="$themedir/css/rssaggregator.css" />
 	</uninstall>
 </package-info>
